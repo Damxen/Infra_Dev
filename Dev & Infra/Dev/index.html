@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOL ITEMS</title>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+    <h1>League of Legends Items</h1>
+    <div class="container" id="items"></div>
+
+    <script>
+        fetch('http://localhost:5000/items')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data retrieved:', data);
+                const itemsDiv = document.getElementById('items');
+                data.forEach(item => {
+                    console.log(`Processing item: ${item.name}, Image URL: ${item.image}`);
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add('item');
+
+                    const tooltipStats = `
+                        ${item.attack_damage > 0 ? `<div class="stat"><span>Attack Damage:</span><span>${item.attack_damage}</span></div>` : ''}
+                        ${item.ability_haste > 0 ? `<div class="stat"><span>Ability Haste:</span><span>${item.ability_haste}</span></div>` : ''}
+                        ${item.lethality > 0 ? `<div class="stat"><span>Lethality:</span><span>${item.lethality}</span></div>` : ''}
+                        ${item.health > 0 ? `<div class="stat"><span>Health:</span><span>${item.health}</span></div>` : ''}
+                        ${item.mana > 0 ? `<div class="stat"><span>Mana:</span><span>${item.mana}</span></div>` : ''}
+                        ${item.armor > 0 ? `<div class="stat"><span>Armor:</span><span>${item.armor}</span></div>` : ''}
+                        ${item.ability_power > 0 ? `<div class="stat"><span>Ability Power:</span><span>${item.ability_power}</span></div>` : ''}
+                        ${item.attack_speed > 0 ? `<div class="stat"><span>Attack Speed:</span><span>${item.attack_speed}%</span></div>` : ''}
+                        ${item.percent_armor_penetration > 0 ? `<div class="stat"><span>Percent Armor Penetration:</span><span>${item.percent_armor_penetration}%</span></div>` : ''}
+                        ${item.percent_magic_penetration > 0 ? `<div class="stat"><span>Percent Magic Penetration:</span><span>${item.percent_magic_penetration}%</span></div>` : ''}
+                        ${item.critical_strike > 0 ? `<div class="stat"><span>Critical Strike:</span><span>${item.critical_strike}%</span></div>` : ''}
+                        ${item.percent_critical_strike_damage > 0 ? `<div class="stat"><span>Percent Critical Strike Damage:</span><span>${item.percent_critical_strike_damage}%</span></div>` : ''}
+                        ${item.movement_speed > 0 ? `<div class="stat"><span>Movement Speed:</span><span>${item.movement_speed}</span></div>` : ''}
+                        ${item.percent_movement_speed > 0 ? `<div class="stat"><span>Percent Movement Speed:</span><span>${item.percent_movement_speed}%</span></div>` : ''}
+                        ${item.magic_resist > 0 ? `<div class="stat"><span>Magic Resist:</span><span>${item.magic_resist}</span></div>` : ''}
+                        ${item.percent_life_steal > 0 ? `<div class="stat"><span>Life Steal:</span><span>${item.percent_life_steal}%</span></div>` : ''}
+                        ${item.base_health_regen > 0 ? `<div class="stat"><span>Base Health Regen:</span><span>${item.base_health_regen}%</span></div>` : ''}
+                        ${item.base_mana_regen > 0 ? `<div class="stat"><span>Base Mana Regen:</span><span>${item.base_mana_regen}%</span></div>` : ''}
+                    `;
+
+                    const tooltipContent = `
+                        <h3>${item.name}</h3>
+                        ${tooltipStats}
+                        <p><strong>Description:</strong> ${item.description}</p>
+                        <p><strong>Cost:</strong> ${item.cost}</p>
+                        <p><strong>Tags:</strong> ${item.tags.join(', ')}</p>
+                    `;
+
+                    itemDiv.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='default_image.png'">
+                        <h2>${item.name}</h2>
+                        <div class="tooltip">${tooltipContent}</div>
+                    `;
+                    itemsDiv.appendChild(itemDiv);
+
+                    itemDiv.addEventListener('mouseenter', function () {
+                        const tooltip = itemDiv.querySelector('.tooltip');
+                        const rect = tooltip.getBoundingClientRect();
+                        if (rect.top < 0) {
+                            tooltip.classList.add('adjust-top');
+                        } else {
+                            tooltip.classList.remove('adjust-top');
+                        }
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+    </script>
+</body>
+</html>

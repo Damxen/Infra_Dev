@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>League of Legends Items</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>League of Legends Items</h1>
+    <div class="selected-items" id="selectedItems"></div>
+    <div class="container" id="items"></div>
+
+    <script>
+        const selectedItems = [];
+        const maxSelectedItems = 6;
+
+        fetch('http://localhost:5000/items')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const itemsDiv = document.getElementById('items');
+                const selectedItemsDiv = document.getElementById('selectedItems');
+
+                data.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add('item');
+                    itemDiv.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='default_image.png'">
+                    `;
+
+                    const tooltipContent = `
+                        <h3>${item.name}</h3>
+                        <p><strong>Description:</strong> ${item.description}</p>
+                        <p><strong>Cost:</strong> ${item.cost}</p>
+                        <p><strong>Tags:</strong> ${item.tags.join(', ')}</p>
+                    `;
+
+                    const tooltip = document.createElement('div');
+                    tooltip.classList.add('tooltip');
+                    tooltip.innerHTML = tooltipContent;
+                    itemDiv.appendChild(tooltip);
+
+                    itemDiv.addEventListener('mouseenter', function () {
+                        const rect = tooltip.getBoundingClientRect();
+                        if (rect.top < 0) {
+                            tooltip.classList.add('adjust-top');
+                        } else {
+                            tooltip.classList.remove('adjust-top');
+                        }
+                    });
+
+                    itemDiv.addEventListener('click', function () {
+                        if (itemDiv.classList.contains('selected')) {
+                            itemDiv.classList.remove('selected');
+                            const index = selectedItems.indexOf(item);
+                            if (index > -1) {
+                                selectedItems.splice(index, 1);
+                            }
+                        } else {
+                            if (selectedItems.length < maxSelectedItems) {
+                                itemDiv.classList.add('selected');
+                                selectedItems.push(item);
+                            }
+                        }
+                        updateSelectedItems();
+                    });
+
+                    itemsDiv.appendChild(itemDiv);
+                });
+
+                function updateSelectedItems() {
+                    selectedItemsDiv.innerHTML = '';
+                    selectedItems.forEach(item => {
+                        const selectedItemDiv = document.createElement('div');
+                        selectedItemDiv.classList.add('selected-item');
+                        selectedItemDiv.innerHTML = `
+                            <img src="${item.image}" alt="${item.name}" onerror="this.src='default_image.png'">
+                        `;
+                        selectedItemsDiv.appendChild(selectedItemDiv);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+    </script>
+</body>
+</html>

@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import mysql.connector
 import json
+import sqlite3
 
 db_config = {
     'user': 'root',
@@ -43,7 +44,12 @@ cursor.execute("""
     )
 """)
 
+
+
+
 url = "https://ddragon.leagueoflegends.com/cdn/14.10.1/data/en_US/item.json"
+
+
 
 response = requests.get(url)
 data = response.json()

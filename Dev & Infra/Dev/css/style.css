@@ -3,39 +3,57 @@ body {
     background-color: #f4f4f9;
     color: #333;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
 }
-.container {
-    width: 80%;
+h1 {
+    text-align: center;
+}
+.selected-items {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.selected-item {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 10px;
+    margin: 5px;
+    width: 100px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.selected-item img {
+    width: 50px;
+    height: 50px;
+}
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 10px;
+    width: 80%;
+    margin-bottom: 50px;
 }
 .item {
     position: relative;
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #fff;
-    padding: 20px;
-    margin: 10px;
-    width: 200px;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    text-align: center;
+    cursor: pointer;
 }
 .item img {
     width: 50px;
     height: 50px;
-    margin-bottom: 10px;
 }
-.item h2 {
-    font-size: 18px;
-    margin: 10px 0;
-}
-.item p {
-    font-size: 14px;
-    margin: 5px 0;
+.item.selected {
+    border: 2px solid #007bff;
 }
 .tooltip {
     display: none;
@@ -65,10 +83,6 @@ body {
 .tooltip .stat {
     display: flex;
     justify-content: space-between;
-}
-.tooltip.adjust-top {
-    bottom: auto;
-    top: 120%;
 }
 .item:hover .tooltip {
     display: block;

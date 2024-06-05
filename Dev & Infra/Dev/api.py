@@ -70,7 +70,7 @@ def get_champions():
             'title': champion[2],
             'description': champion[3],
             'tags': champion[4].split(','),
-            'image': champion[5],
+            'image': f"http://ddragon.leagueoflegends.com/cdn/14.10.1/img/champion/{champion[5]}",  # URL complète pour l'image du champion
             'hp': champion[6],
             'hpperlevel': champion[7],
             'mana': champion[8],
@@ -105,7 +105,7 @@ def get_runes():
     for rune in runes:
         runes_list.append({
             'id': rune[0],
-            'icon': rune[1],
+            'icon': f"http://ddragon.leagueoflegends.com/cdn/img/{rune[1]}",  # URL complète pour l'icône de la rune
             'name': rune[2],
             'shortDescription': rune[3],
             'longDescription': rune[4]

@@ -2,91 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>League of Legends Items</title>
+    <title>League of Legends Data</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>League of Legends Items</h1>
-    <div class="selected-items" id="selectedItems"></div>
+    <h1>League of Legends Data</h1>
+    
+    <div class="selections">
+        <div class="runes-section flex">
+            <div class="block">
+                <div class="rune-slot spcL"></div>
+                <div class="rune-slot smaller"></div>
+                <div class="rune-slot smaller"></div>
+                <div class="rune-slot smaller"></div>
+            </div>
+            <div class="spc block">
+                <div class="rune-slot smaller"></div>
+                <div class="rune-slot smaller"></div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="champion-section">
+                <div class="champion-slot"></div>
+            </div>
+            
+            <div class="items-section">
+                <div class="flex">
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                </div>
+                <div class="flex">
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="stats-section" id="statsSection">
+            <h2>Champion Stats</h2>
+            <p>HP: <span id="hp"></span></p>
+            <p>Mana: <span id="mana"></span></p>
+            <p>Armor: <span id="armor"></span></p>
+            <p>Attack Damage: <span id="attackDamage"></span></p>
+            <p>Attack Speed: <span id="attackSpeed"></span></p>
+            <p>Movement Speed: <span id="movementSpeed"></span></p>
+            <p>Magic Resist: <span id="magicResist"></span></p>
+            <p>HP Regen: <span id="hpRegen"></span></p>
+            <p>Mana Regen: <span id="manaRegen"></span></p>
+
+            <button onclick="toggleSubMenu()">Show More Stats</button>
+            <div class="submenu" id="statsSubMenu">
+                <p>HP per level: <span id="hpPerLevel"></span></p>
+                <p>Mana per level: <span id="manaPerLevel"></span></p>
+                <p>Armor per level: <span id="armorPerLevel"></span></p>
+                <p>Attack Damage per level: <span id="attackDamagePerLevel"></span></p>
+                <p>Attack Speed per level: <span id="attackSpeedPerLevel"></span></p>
+                <p>Magic Resist per level: <span id="magicResistPerLevel"></span></p>
+                <p>HP Regen per level: <span id="hpRegenPerLevel"></span></p>
+                <p>Mana Regen per level: <span id="manaRegenPerLevel"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <h2>Available Runes</h2>
+    <div class="container" id="runes"></div>
+
+    <h2>Available Champions</h2>
+    <div class="container" id="champions"></div>
+
+    <h2>Available Items</h2>
     <div class="container" id="items"></div>
 
-    <script>
-        const selectedItems = [];
-        const maxSelectedItems = 6;
-
-        fetch('http://localhost:5000/items')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const itemsDiv = document.getElementById('items');
-                const selectedItemsDiv = document.getElementById('selectedItems');
-
-                data.forEach(item => {
-                    const itemDiv = document.createElement('div');
-                    itemDiv.classList.add('item');
-                    itemDiv.innerHTML = `
-                        <img src="${item.image}" alt="${item.name}" onerror="this.src='default_image.png'">
-                    `;
-
-                    const tooltipContent = `
-                        <h3>${item.name}</h3>
-                        <p><strong>Description:</strong> ${item.description}</p>
-                        <p><strong>Cost:</strong> ${item.cost}</p>
-                        <p><strong>Tags:</strong> ${item.tags.join(', ')}</p>
-                    `;
-
-                    const tooltip = document.createElement('div');
-                    tooltip.classList.add('tooltip');
-                    tooltip.innerHTML = tooltipContent;
-                    itemDiv.appendChild(tooltip);
-
-                    itemDiv.addEventListener('mouseenter', function () {
-                        const rect = tooltip.getBoundingClientRect();
-                        if (rect.top < 0) {
-                            tooltip.classList.add('adjust-top');
-                        } else {
-                            tooltip.classList.remove('adjust-top');
-                        }
-                    });
-
-                    itemDiv.addEventListener('click', function () {
-                        if (itemDiv.classList.contains('selected')) {
-                            itemDiv.classList.remove('selected');
-                            const index = selectedItems.indexOf(item);
-                            if (index > -1) {
-                                selectedItems.splice(index, 1);
-                            }
-                        } else {
-                            if (selectedItems.length < maxSelectedItems) {
-                                itemDiv.classList.add('selected');
-                                selectedItems.push(item);
-                            }
-                        }
-                        updateSelectedItems();
-                    });
-
-                    itemsDiv.appendChild(itemDiv);
-                });
-
-                function updateSelectedItems() {
-                    selectedItemsDiv.innerHTML = '';
-                    selectedItems.forEach(item => {
-                        const selectedItemDiv = document.createElement('div');
-                        selectedItemDiv.classList.add('selected-item');
-                        selectedItemDiv.innerHTML = `
-                            <img src="${item.image}" alt="${item.name}" onerror="this.src='default_image.png'">
-                        `;
-                        selectedItemsDiv.appendChild(selectedItemDiv);
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-            });
-    </script>
+    <script src="js/app.js"></script>
 </body>
 </html>

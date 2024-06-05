@@ -1,89 +1,143 @@
+/* css/style.css */
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-h1 {
     text-align: center;
+    background-color: #1C1F2C;
+    margin: 0;
+    padding: 0;
 }
-.selected-items {
+
+h1, h2 {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
-.selected-item {
+
+.item, .champion, .rune {
+    width: 80px;
+    height: 80px;
+    margin: 10px;
     position: relative;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #fff;
-    padding: 10px;
-    margin: 5px;
-    width: 100px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    text-align: center;
-}
-.selected-item img {
-    width: 50px;
-    height: 50px;
-}
-.container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-    gap: 10px;
-    width: 80%;
-    margin-bottom: 50px;
-}
-.item {
-    position: relative;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
-    padding: 10px;
-    width: 50px;
-    height: 50px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 50%; /* Rounded corners */
 }
-.item img {
-    width: 50px;
-    height: 50px;
+
+.item img, .champion img, .rune img {
+    max-width: 60px;
+    max-height: 60px;
 }
-.item.selected {
-    border: 2px solid #007bff;
-}
+
 .tooltip {
-    display: none;
     position: absolute;
-    bottom: 120%;
+    bottom: -120px;
     left: 50%;
     transform: translateX(-50%);
-    width: 250px;
-    border: 1px solid #888;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    padding: 15px;
-    z-index: 1000;
+    width: 200px;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
     text-align: left;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: none;
 }
-.tooltip p {
-    margin: 5px 0;
-    font-size: 14px;
-}
-.tooltip h3 {
-    font-size: 16px;
-    margin: 0 0 10px 0;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-}
-.tooltip .stat {
-    display: flex;
-    justify-content: space-between;
-}
-.item:hover .tooltip {
+
+.item:hover .tooltip, .champion:hover .tooltip, .rune:hover .tooltip {
     display: block;
+}
+
+.selections {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.runes-section, .items-section {
+    display: block;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+}
+
+.champion-section {
+    margin: 0 50px;
+}
+
+.rune-slot, .item-slot, .champion-slot {
+    width: 80px;
+    height: 80px;
+    background-color: #e0e0e0;
+    border: 1px dashed #bbb;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Rounded corners */
+    margin: 10px;
+}
+
+.spcL {
+    margin-left: 70%;
+}
+.spc {
+    margin-top: 40%;
+}
+
+.flex {
+    display: flex;
+}
+
+.block {
+    display: block;
+}
+
+
+.champion-slot {
+    width: 160px;
+    height: 160px;
+}
+
+.rune-slot.smaller {
+    width: 60px;
+    height: 60px;
+}
+
+.stats-section {
+    text-align: left;
+    background-color: #fff;
+    padding: 15px;
+    margin-left: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 300px; /* Smaller stats block */
+    margin-top: 30px;
+}
+
+.stats-section .submenu {
+    display: none;
+    margin-top: 10px;
+}
+
+.stats-section .submenu.active {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .selections {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .champion-section {
+        margin: 30px 0;
+    }
 }

@@ -1,4 +1,3 @@
-// Fonction pour basculer l'affichage du sous-menu
 function toggleSubMenu() {
     const subMenu = document.getElementById('statsSubMenu');
     subMenu.classList.toggle('active');
@@ -7,7 +6,6 @@ function toggleSubMenu() {
 let equippedItems = [];
 let equippedChampion = null;
 
-// Fonction pour gérer le placement automatique dans les slots
 function placeInFirstAvailableSlot(item, slotSelector) {
     const slots = document.querySelectorAll(slotSelector);
     for (const slot of slots) {
@@ -15,15 +13,14 @@ function placeInFirstAvailableSlot(item, slotSelector) {
             const imageUrl = item.icon ? item.icon : item.image;
             slot.innerHTML = `<img src="${imageUrl}" alt="${item.name}" onerror="this.src='default_image.png'">`;
             slot.classList.add('occupied');
-            slot.setAttribute('data-item-id', item.id); // Associer l'ID de l'item à l'emplacement
-            equippedItems.push({ id: item.id, stats: item }); // Ajoute l'item à equippedItems
-            return slot; // Retourne le slot où l'item a été placé
+            slot.setAttribute('data-item-id', item.id); 
+            equippedItems.push({ id: item.id, stats: item }); 
+            return slot;
         }
     }
-    return null; // Si aucun slot disponible
+    return null; 
 }
 
-// Fonction pour récupérer les statistiques d'un item
 function getItemStats(itemId) {
     return fetch(`http://localhost:5000/items/${itemId}`)
         .then(response => response.json())
@@ -32,7 +29,6 @@ function getItemStats(itemId) {
         });
 }
 
-// Fonction pour récupérer les statistiques d'un champion
 function getChampionStats(championId) {
     return fetch(`http://localhost:5000/champions/${championId}`)
         .then(response => response.json())
@@ -76,7 +72,6 @@ function updateTotalStats() {
     updateStats(totalStats);
 }
 
-// Fonction pour mettre à jour l'affichage des statistiques
 function updateStats(stats) {
     const statElements = {
         'health': 'health',
@@ -108,21 +103,20 @@ function updateStats(stats) {
     });
 }
 
-// Gestion de la sélection et la désélection des objets dans l'inventaire
 function toggleSelection(slot, itemId) {
     if (slot.classList.contains('occupied')) {
-        // Retirer l'item des items équipés
+        
         equippedItems = equippedItems.filter(item => item.id !== itemId);
-        slot.innerHTML = ''; // Videz l'emplacement
-        slot.classList.remove('occupied'); // Supprimez la classe "occupied"
-        slot.removeAttribute('data-item-id'); // Supprimez l'attribut data-item-id
-        updateTotalStats(); // Mettez à jour les statistiques totales après la suppression
+        slot.innerHTML = ''; 
+        slot.classList.remove('occupied'); 
+        slot.removeAttribute('data-item-id');
+        updateTotalStats(); 
     } else {
         getItemStats(itemId).then(itemStats => {
             if (itemStats) {
                 const placedSlot = placeInFirstAvailableSlot(itemStats, '.item-slot');
                 if (placedSlot) {
-                    updateTotalStats(); // Mettez à jour les statistiques totales après l'ajout
+                    updateTotalStats(); 
                 }
             }
         });
@@ -142,17 +136,15 @@ function equipChampion(championId) {
 }
 
 
-// Ajoutez un gestionnaire d'événements de clic à chaque emplacement de champion
 document.querySelectorAll('.champion-slot').forEach(slot => {
     slot.addEventListener('click', (event) => {
-        const championName = slot.getAttribute('data-champion-name'); // Récupérez le nom du champion
+        const championName = slot.getAttribute('data-champion-name'); 
         if (championName) {
-            equipChampion(championName); // Utilisez le nom du champion pour équiper
+            equipChampion(championName); 
         }
     });
 });
 
-// Ajoutez un gestionnaire d'événements de clic à chaque emplacement d'objet
 function initializeItemSlots() {
     document.querySelectorAll('.item-slot').forEach(slot => {
         slot.addEventListener('click', (event) => {
@@ -164,7 +156,6 @@ function initializeItemSlots() {
     });
 }
 
-// Récupération des runes, champions et items depuis le serveur et affichage dans la page
 fetch('http://localhost:5000/runes')
     .then(response => response.json())
     .then(data => {
@@ -193,7 +184,7 @@ fetch('http://localhost:5000/runes')
         data.forEach(champion => {
             const championDiv = document.createElement('div');
             championDiv.classList.add('champion');
-            championDiv.setAttribute('data-champion-name', champion.name); // Utilisez le nom du champion comme attribut
+            championDiv.setAttribute('data-champion-name', champion.name); 
             championDiv.innerHTML = `<img src="${champion.image}" alt="${champion.name}" title="${champion.name}" onerror="this.src='default_image.png'">`;
 
             championDiv.addEventListener('click', () => {
@@ -207,7 +198,6 @@ fetch('http://localhost:5000/runes')
         console.error('Error fetching champions:', error);
     });
 
-// Fetch and display items
 fetch('http://localhost:5000/items')
     .then(response => response.json())
     .then(data => {
@@ -215,20 +205,20 @@ fetch('http://localhost:5000/items')
         data.forEach(item => {
             const itemDiv = document.createElement('div');
             itemDiv.classList.add('item');
-            itemDiv.setAttribute('data-item-id', item.id); // Ajout de l'ID de l'item comme attribut de données
+            itemDiv.setAttribute('data-item-id', item.id); 
             itemDiv.innerHTML = `<img src="${item.image}" alt="${item.name}" title="${item.name}" onerror="this.src='default_image.png'">`;
 
             itemDiv.addEventListener('click', () => {
                 const slot = placeInFirstAvailableSlot(item, '.item-slot');
                 if (slot) {
-                    slot.classList.add('selected'); // Assurez-vous que le slot est sélectionné
-                    updateTotalStats(); // Mettez à jour les statistiques totales après l'ajout
+                    slot.classList.add('selected'); 
+                    updateTotalStats(); 
                 }
             });
 
             itemsDiv.appendChild(itemDiv);
         });
-        initializeItemSlots(); // Mettre à jour les événements de clic après que les éléments sont ajoutés au DOM
+        initializeItemSlots(); 
     })
     .catch(error => {
         console.error('Error fetching items:', error);

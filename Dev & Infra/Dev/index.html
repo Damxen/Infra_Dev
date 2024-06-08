@@ -36,34 +36,57 @@
                     <div class="item-slot"></div>
                     <div class="item-slot"></div>
                     <div class="item-slot"></div>
-                </div>
-                
+                </div>   
             </div>
         </div>
         
-        
-        <div class="stats-section" id="statsSection">
-            <h2>Champion Stats</h2>
-            <p>HP: <span id="hp"></span></p>
-            <p>Mana: <span id="mana"></span></p>
-            <p>Armor: <span id="armor"></span></p>
-            <p>Attack Damage: <span id="attackDamage"></span></p>
-            <p>Attack Speed: <span id="attackSpeed"></span></p>
-            <p>Movement Speed: <span id="movementSpeed"></span></p>
-            <p>Magic Resist: <span id="magicResist"></span></p>
-            <p>HP Regen: <span id="hpRegen"></span></p>
-            <p>Mana Regen: <span id="manaRegen"></span></p>
-
-            <button onclick="toggleSubMenu()">Show More Stats</button>
-            <div class="submenu" id="statsSubMenu">
-                <p>HP per level: <span id="hpPerLevel"></span></p>
-                <p>Mana per level: <span id="manaPerLevel"></span></p>
-                <p>Armor per level: <span id="armorPerLevel"></span></p>
-                <p>Attack Damage per level: <span id="attackDamagePerLevel"></span></p>
-                <p>Attack Speed per level: <span id="attackSpeedPerLevel"></span></p>
-                <p>Magic Resist per level: <span id="magicResistPerLevel"></span></p>
-                <p>HP Regen per level: <span id="hpRegenPerLevel"></span></p>
-                <p>Mana Regen per level: <span id="manaRegenPerLevel"></span></p>
+        <div class="wrapper">
+            <div class="card">
+                <div class="item-front">
+                    <div class="stats-title"> <!-- Nouvelle div pour le titre -->
+                        <h3>Stats</h3>
+                    </div>
+                    <div class="bigCol">
+                        <div class="col">
+                            <p>HP: <span id="health"></span></p>
+                            <p>Mana: <span id="mana"></span></p>
+                            <p>Armor: <span id="armor"></span></p>
+                            <p>MR: <span id="magic_resist"></span></p>
+                            <p>AD: <span id="attack_damage"></span></p>
+                            <p>AP: <span id="ability_power"></span></p>
+                            <p>AS: <span id="attack_speed"></span></p>
+                            <p>Haste: <span id="ability_haste"></span></p>
+                        </div>
+                        <div class="col">
+                            <p>Lifesteal:<span id="percent_life_steal"></span></p>
+                            <p>MS: <span id="movement_speed"></span></p>
+                            <p>Crit Strike: <span id="critical_strike"></span></p>
+                            <p>Crit Dmg: <span id="percent_critical_strike_damage"></span></p>
+                            <p>Armor Pen:<span id="percent_armor_penetration"></span></p>
+                            <p>Magic Pen:<span id="percent_magic_penetration"></span></p>
+                            <p>Lethality:<span id="lethality"></span></p>
+                        </div>
+                    </div>
+                      
+                    
+                </div>
+                <div class="item-back">
+                    <div class="content">
+                        <h3>SubStats</h3>
+                        <div class="item-text">
+                            <p>HP/lvl: <span id="hpPerLevel"></span></p>
+                            <p>Mana/lvl: <span id="manaPerLevel"></span></p>
+                            <p>AD/lvl: <span id="attackDamagePerLevel"></span></p>
+                            <p>AS/lvl: <span id="attackSpeedPerLevel"></span></p>
+                            <p>Armor/lvl: <span id="armorPerLevel"></span></p>
+                            <p>Magic Resist/lvl: <span id="magicResistPerLevel"></span></p>
+                            <p>HP Regen: <span id="hpRegen"></span></p>
+                            <p>Mana Regen: <span id="manaRegen"></span></p> 
+                            <p>HP Regen/lvl: <span id="hpRegenPerLevel"></span></p>
+                            <p>Mana Regen/lvl: <span id="manaRegenPerLevel"></span></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

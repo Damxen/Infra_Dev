@@ -53,6 +53,40 @@ def get_items():
 
     return jsonify(items_list)
 
+@app.route('/items/<int:item_id>', methods=['GET'])
+def get_item_stats(item_id):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT health, mana, armor, ability_power, attack_damage, attack_speed, percent_armor_penetration, percent_magic_penetration, lethality, critical_strike, percent_critical_strike_damage, movement_speed, percent_movement_speed, magic_resist, ability_haste, percent_life_steal FROM items WHERE id = %s;", (item_id,))
+    item = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if item:
+        print(f"Fetched item: {item}")  # Débogage: afficher le contenu de `item`
+        item_stats = {
+            'health': item[0],
+            'mana': item[1],
+            'armor': item[2],
+            'ability_power': item[3],
+            'attack_damage': item[4],
+            'attack_speed': item[5],
+            'percent_armor_penetration': item[6],
+            'percent_magic_penetration': item[7],
+            'lethality': item[8],
+            'critical_strike': item[9],
+            'percent_critical_strike_damage': item[10],
+            'movement_speed': item[11],
+            'percent_movement_speed': item[12],
+            'magic_resist': item[13],
+            'ability_haste': item[14],
+            'percent_life_steal': item[15]
+        }
+        return jsonify(item_stats)
+    else:
+        return jsonify({'error': 'Item not found'}), 404
+
+
 @app.route('/champions', methods=['GET'])
 def get_champions():
     conn = get_db_connection()
@@ -71,7 +105,7 @@ def get_champions():
             'description': champion[3],
             'tags': champion[4].split(','),
             'image': f"http://ddragon.leagueoflegends.com/cdn/14.10.1/img/champion/{champion[5]}",  # URL complète pour l'image du champion
-            'hp': champion[6],
+            'health': champion[6],
             'hpperlevel': champion[7],
             'mana': champion[8],
             'manaperlevel': champion[9],

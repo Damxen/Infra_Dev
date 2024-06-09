@@ -30,13 +30,13 @@ h1, h2 {
     background-color: #fff;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 50%; /* Rounded corners */
+    border-radius: 50%; 
 }
 
 .item img, .champion img, .rune img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* Ajuste l'image pour s'adapter à la taille de la boîte sans déformer */
+    object-fit: contain; 
 }
 
 .rune-slot img, .champion-slot img, .item-slot img {
@@ -100,7 +100,7 @@ h1, h2 {
     border: 1px dashed #bbb;
     align-items: center;
     justify-content: center;
-    border-radius: 50%; /* Rounded corners */
+    border-radius: 50%; 
     margin: 10px;
 }
 
@@ -239,16 +239,16 @@ h1, h2 {
         }
 
         .item-slot.occupied, .rune-slot.occupied, .champion-slot.occupied {
-            background-color: #c0c0c0; /* Change the background color of occupied slots */
+            background-color: #c0c0c0; 
         }
 
         .item-front {
-            justify-content: space-between; /* Répartit l'espace entre les éléments */
+            justify-content: space-between; 
         }
         
         .stats-title {
-            text-align: center; /* Centre le texte */
-            margin-top: 10px; /* Ajuste la marge au-dessus du titre */
+            text-align: center; 
+            margin-top: 10px; 
         }
         
         .bigCol{
@@ -260,8 +260,20 @@ h1, h2 {
         }
 
         .col:first-child {
-            margin-right: 20%; /* Ajoute une marge à droite de la première colonne */
+            margin-right: 20%;
             margin-left: 15%;
+        }
+
+        #champion-level {
+            width: 50px;
+            height: 30px;
+            margin-left: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+            background-color: #fff;
         }
         
         

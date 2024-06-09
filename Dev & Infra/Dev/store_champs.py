@@ -22,12 +22,12 @@ cursor.execute("""
         description TEXT,
         tags VARCHAR(255),
         image VARCHAR(255),
-        hp FLOAT,
-        hpperlevel FLOAT,
+        hp INT,
+        hp_perlevel FLOAT,
         mana FLOAT,
-        manaperlevel FLOAT,
+        mana_perlevel FLOAT,
         armor FLOAT,
-        armorperlevel FLOAT,
+        armor_perlevel FLOAT,
         attack_damage FLOAT,
         attack_damage_perlevel FLOAT,
         attack_speed FLOAT,
@@ -59,13 +59,13 @@ for champ_id, champ_data in data['data'].items():
         cursor.execute('''
         INSERT IGNORE INTO champions (
             id, name, title, description, tags, image,
-            hp, hpperlevel, mana, manaperlevel, armor, armorperlevel,
+            hp, hp_perlevel, mana, mana_perlevel, armor, armor_perlevel,
             attack_damage, attack_damage_perlevel, attack_speed, attack_speed_perlevel,
             movement_speed, magic_resist, magic_resist_perlevel,
             hp_regen, hp_regen_perlevel, mana_regen, mana_regen_perlevel
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         ''', (
-            champ_data['id'],
+            champ_data['key'],
             champ_data['name'],
             champ_data['title'],
             champ_data['blurb'],

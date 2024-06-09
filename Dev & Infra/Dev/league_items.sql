@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `champions` (
-  `id` varchar(255) NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `title` text DEFAULT NULL,
   `description` text DEFAULT NULL,

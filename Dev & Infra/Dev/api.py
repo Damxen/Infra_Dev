@@ -48,7 +48,9 @@ def get_items():
             'percent_movement_speed': item[18],
             'magic_resist': item[19],
             'ability_haste': item[20],
-            'percent_life_steal': item[21]
+            'percent_life_steal': item[21],
+            'health_regen': item[22],
+            'mana_regen': item[23]
         })
 
     return jsonify(items_list)
@@ -57,13 +59,12 @@ def get_items():
 def get_item_stats(item_id):
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT health, mana, armor, ability_power, attack_damage, attack_speed, percent_armor_penetration, percent_magic_penetration, lethality, critical_strike, percent_critical_strike_damage, movement_speed, percent_movement_speed, magic_resist, ability_haste, percent_life_steal FROM items WHERE id = %s;", (item_id,))
+    cur.execute("SELECT health, mana, armor, ability_power, attack_damage, attack_speed, percent_armor_penetration, percent_magic_penetration, lethality, critical_strike, percent_critical_strike_damage, movement_speed, percent_movement_speed, magic_resist, ability_haste, percent_life_steal, health_regen, mana_regen FROM items WHERE id = %s;", (item_id,))
     item = cur.fetchone()
     cur.close()
     conn.close()
 
     if item:
-        print(f"Fetched item: {item}")  # Débogage: afficher le contenu de `item`
         item_stats = {
             'health': item[0],
             'mana': item[1],
@@ -80,12 +81,13 @@ def get_item_stats(item_id):
             'percent_movement_speed': item[12],
             'magic_resist': item[13],
             'ability_haste': item[14],
-            'percent_life_steal': item[15]
+            'percent_life_steal': item[15],
+            'health_regen': item[16],
+            'mana_regen': item[17]
         }
         return jsonify(item_stats)
     else:
         return jsonify({'error': 'Item not found'}), 404
-
 
 @app.route('/champions', methods=['GET'])
 def get_champions():
@@ -105,12 +107,12 @@ def get_champions():
             'description': champion[3],
             'tags': champion[4].split(','),
             'image': f"http://ddragon.leagueoflegends.com/cdn/14.10.1/img/champion/{champion[5]}",  # URL complète pour l'image du champion
-            'health': champion[6],
-            'hpperlevel': champion[7],
+            'hp': champion[6],
+            'hp_perlevel': champion[7],
             'mana': champion[8],
-            'manaperlevel': champion[9],
+            'mana_perlevel': champion[9],
             'armor': champion[10],
-            'armorperlevel': champion[11],
+            'armor_perlevel': champion[11],
             'attack_damage': champion[12],
             'attack_damage_perlevel': champion[13],
             'attack_speed': champion[14],
@@ -125,6 +127,44 @@ def get_champions():
         })
 
     return jsonify(champions_list)
+
+@app.route('/champions/<int:champion_id>', methods=['GET'])
+def get_champion_stats(champion_id):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT name, title, description, tags, image, hp, hp_perlevel, mana, mana_perlevel, armor, armor_perlevel, attack_damage, attack_damage_perlevel, attack_speed, attack_speed_perlevel, movement_speed, magic_resist, magic_resist_perlevel, hp_regen, hp_regen_perlevel, mana_regen, mana_regen_perlevel FROM champions WHERE id = %s;", (champion_id,))
+    champion = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if champion:
+        champion_stats = {
+            'name': champion[0],
+            'title': champion[1],
+            'description': champion[2],
+            'tags': champion[3].split(','),
+            'image': f"http://ddragon.leagueoflegends.com/cdn/14.10.1/img/champion/{champion[4]}",
+            'hp': champion[5],
+            'hp_perlevel': champion[6],
+            'mana': champion[7],
+            'mana_perlevel': champion[8],
+            'armor': champion[9],
+            'armor_perlevel': champion[10],
+            'attack_damage': champion[11],
+            'attack_damage_perlevel': champion[12],
+            'attack_speed': champion[13],
+            'attack_speed_perlevel': champion[14],
+            'movement_speed': champion[15],
+            'magic_resist': champion[16],
+            'magic_resist_perlevel': champion[17],
+            'hp_regen': champion[18],
+            'hp_regen_perlevel': champion[19],
+            'mana_regen': champion[20],
+            'mana_regen_perlevel': champion[21]
+        }
+        return jsonify(champion_stats)
+    else:
+        return jsonify({'error': 'Champion not found'}), 404
 
 @app.route('/runes', methods=['GET'])
 def get_runes():

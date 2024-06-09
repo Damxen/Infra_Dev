@@ -9,11 +9,9 @@ db_config = {
     'database': 'league_items'
 }
 
-# Connexion à la base de données
 conn = mysql.connector.connect(**db_config)
 cursor = conn.cursor()
 
-# Création de la table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS champions (
         id VARCHAR(255) PRIMARY KEY,
@@ -47,13 +45,12 @@ url = "https://ddragon.leagueoflegends.com/cdn/14.10.1/data/en_US/champion.json"
 response = requests.get(url)
 data = response.json()
 
-# Compteur pour les champions insérés
 champion_count = 0
 
 for champ_id, champ_data in data['data'].items():
     stats = champ_data['stats']
-    tags = ','.join(champ_data['tags'])  # Convertir la liste de tags en chaîne de caractères
-    image = champ_data['image']['full']  # Récupérer le nom de l'image
+    tags = ','.join(champ_data['tags'])  
+    image = champ_data['image']['full']  
 
     try:
         cursor.execute('''
@@ -89,14 +86,12 @@ for champ_id, champ_data in data['data'].items():
             stats['mpregen'],
             stats['mpregenperlevel']
         ))
-        champion_count += 1  # Incrémenter le compteur de champions insérés
+        champion_count += 1  
         print(f"Inserted {champ_data['name']} successfully.")
     except Exception as e:
         print(f"Failed to insert {champ_data['name']}: {e}")
 
-# Sauvegarder les changements et fermer la connexion
 conn.commit()
 conn.close()
 
-# Afficher le nombre total de champions insérés
 print(f'Total champions inserted: {champion_count}')

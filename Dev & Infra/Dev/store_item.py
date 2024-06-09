@@ -79,7 +79,6 @@ def extract_combined_text(raw_html):
 
     return combined_text.strip()
 
-# Fonction pour extraire les statistiques de la description
 def extract_stats_from_description(description):
     soup = BeautifulSoup(description, 'html.parser')
     stats = {
@@ -150,11 +149,9 @@ def extract_stats_from_description(description):
 
     return stats
 
-# Filtr pour avoir seulement les items du mode 5v5
 filtered_items = {item_id: item_info for item_id, item_info in items.items()
                   if item_info.get('maps', {}).get("11", False) and item_info.get('inStore', True)}
 
-# Insertion des items dans la BDD
 for item_id, item_info in filtered_items.items():
     description_html = item_info.get('description', '')
     stats = extract_stats_from_description(description_html)

@@ -1,9 +1,3 @@
-
-function toggleSubMenu() {
-    const subMenu = document.getElementById('statsSubMenu');
-    subMenu.classList.toggle('active');
-}
-
 let equippedItems = [];
 let equippedChampion = null;
 
@@ -76,35 +70,29 @@ function updateTotalStats() {
         magic_resist_perlevel: 0,
     };
 
-    // Ajouter les statistiques par niveau au total
     if (equippedChampion) {
         Object.keys(totalStats).forEach(stat => {
             if (stat.endsWith('_perlevel')) {
-                // Ajouter les statistiques par niveau aux statistiques totales en les multipliant par le niveau sélectionné
-                const baseStat = stat.replace('_perlevel', ''); // Obtenez le nom de la statistique de base
-                totalStats[baseStat] += (equippedChampion[stat] || 0) * selectedLevel; // Ajoutez la valeur par niveau à la statistique de base
-                // Mettre à jour les valeurs dans le HTML
+                const baseStat = stat.replace('_perlevel', ''); 
+                totalStats[baseStat] += (equippedChampion[stat] || 0) * selectedLevel;
                 document.getElementById(stat).textContent = (equippedChampion[stat] || 0);
             } else {
-                // Ajouter les statistiques de base au total
                 totalStats[stat] += equippedChampion[stat] || 0;
             }
         });
     }
 
-    // Ajouter les statistiques des objets équipés au total
     equippedItems.forEach(item => {
         Object.keys(totalStats).forEach(stat => {
             if (stat.endsWith('_perlevel')) {
-                // Ignorer les statistiques par niveau des objets équipés car elles ont déjà été ajoutées avec le champion
                 return;
             }
-            // Ajouter les autres statistiques des objets équipés au total
             totalStats[stat] += item.stats[stat] || 0;
         });
     });
 
     updateStats(totalStats);
+    updateSubStats(equippedChampion);
 }
 
 function updateStats(stats) {
@@ -167,14 +155,36 @@ function toggleSelection(slot, itemId) {
     }
 }
 
+function updateSubStats(championStats) {
+    const subStats = {
+        'hp_perlevel': championStats.hp_perlevel,
+        'mana_perlevel': championStats.mana_perlevel,
+        'attack_damage_perlevel': championStats.attack_damage_perlevel,
+        'attack_speed_perlevel': championStats.attack_speed_perlevel,
+        'armor_perlevel': championStats.armor_perlevel,
+        'magic_resist_perlevel': championStats.magic_resist_perlevel,
+        'hp_regen_perlevel': championStats.hp_regen_perlevel,
+        'mana_regen_perlevel': championStats.mana_regen_perlevel
+    };
+
+    Object.entries(subStats).forEach(([stat, value]) => {
+        const element = document.getElementById(stat);
+        if (element) {
+            element.textContent = value;
+        }
+    });
+}
+
+
+
 function equipChampion(championId, level) {
     return fetch(`http://localhost:5000/champions/${championId}`)
         .then(response => response.json())
         .then(championStats => {
             if (!equippedChampion || equippedChampion.id !== championId) {
                 equippedChampion = championStats;
-                // Update total stats with selected level
                 updateTotalStats(level);
+                updateSubStats(championStats);
             }
         })
         .catch(error => {
@@ -190,19 +200,17 @@ function placeChampionInSlot(champion, slotSelector) {
     const slots = document.querySelectorAll(slotSelector);
     for (const slot of slots) {
         if (slot.classList.contains('occupied')) {
-            // If the slot is occupied, clear it before placing the new champion
             slot.innerHTML = '';
             slot.classList.remove('occupied');
             slot.removeAttribute('data-champion-id');
-            equippedChampion = null; // Clear the equipped champion
-            updateTotalStats(); // Update total stats after removing the champion
+            equippedChampion = n
+            updateTotalStats(); 
         }
-        // Place the new champion in the slot
         const imageUrl = champion.icon ? champion.icon : champion.image;
         slot.innerHTML = `<img src="${imageUrl}" alt="${champion.name}" onerror="this.src='default_image.png'">`;
         slot.classList.add('occupied');
         slot.setAttribute('data-champion-id', champion.id);
-        equipChampion(champion.id); // Equip the new champion
+        equipChampion(champion.id); 
         return slot;
     }
     return null;
@@ -215,14 +223,12 @@ document.querySelectorAll('.champion-slot').forEach(slot => {
     slot.addEventListener('click', (event) => {
         const championId = slot.getAttribute('data-champion-id');
         if (championId && slot.classList.contains('occupied')) {
-            // If the slot is occupied and clicked, remove the champion
             slot.innerHTML = '';
             slot.classList.remove('occupied');
             slot.removeAttribute('data-champion-id');
             equippedChampion = null;
-            updateTotalStats(); // Update total stats after removing the champion
+            updateTotalStats(); 
         } else {
-            // If the slot is not occupied, equip the champion
             equipChampion(championId);
         }
     });
@@ -244,12 +250,11 @@ function initializeChampionSlots() {
     document.querySelectorAll('.champion-slot').forEach(slot => {
         slot.addEventListener('click', (event) => {
             if (slot.classList.contains('occupied')) {
-                // If the slot is occupied, remove the champion
                 slot.innerHTML = '';
                 slot.classList.remove('occupied');
                 slot.removeAttribute('data-champion-id');
                 equippedChampion = null;
-                updateTotalStats(); // Update total stats after removing the champion
+                updateTotalStats(); 
             } else {
                 const championId = slot.getAttribute('data-champion-id');
                 if (championId) {
@@ -269,7 +274,7 @@ fetch('http://localhost:5000/champions')
         data.forEach(champion => {
             const championDiv = document.createElement('div');
             championDiv.classList.add('champion');
-            championDiv.setAttribute('data-champion-id', champion.id); // Set the correct data attribute
+            championDiv.setAttribute('data-champion-id', champion.id); 
             championDiv.innerHTML = `<img src="${champion.image}" alt="${champion.name}" title="${champion.name}" onerror="this.src='default_image.png'">`;
 
             championDiv.addEventListener('click', () => {
@@ -278,7 +283,7 @@ fetch('http://localhost:5000/champions')
 
             championsDiv.appendChild(championDiv);
         });
-        initializeChampionSlots(); // Initialize event listeners for champion slots
+        initializeChampionSlots();
     })
     .catch(error => {
         console.error('Error fetching champions:', error);
@@ -324,9 +329,13 @@ fetch('http://localhost:5000/items')
 
             itemsDiv.appendChild(itemDiv);
         });
-        initializeItemSlots(); // Initialize event listeners for item slots
+        initializeItemSlots(); 
     })
     .catch(error => {
         console.error('Error fetching items:', error);
     });
+
+    
+
+
 

@@ -179,7 +179,7 @@ def get_runes():
     for rune in runes:
         runes_list.append({
             'id': rune[0],
-            'icon': f"http://ddragon.leagueoflegends.com/cdn/img/{rune[1]}",  # URL complète pour l'icône de la rune
+            'icon': f"http://ddragon.leagueoflegends.com/cdn/img/{rune[1]}", 
             'name': rune[2],
             'shortDescription': rune[3],
             'longDescription': rune[4]

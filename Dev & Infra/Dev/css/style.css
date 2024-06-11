@@ -296,3 +296,85 @@ h3 {
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.mbuilds {
+    color: #35B5FD;
+    margin-right: 80%;
+}
+
+.styled-button {
+    background-color: #1e90ff; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px; 
+    transition: background-color 0.3s ease; 
+}
+
+.mr {
+    margin-right: 3%;
+}
+
+.styled-button:hover {
+    background-color: #0b78e3;
+}
+
+.username-display {
+    color: #35B5FD;
+}
+
+
+.navbar {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.navbar .nav-button {
+    background-color: #1E90FF;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+p {
+    color: #0b78e3;
+}
+
+.item:hover, .champion:hover, .rune:hover, .occupied:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.attack-simulation {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #35B5FD;
+    border-radius: 10px;
+    background-color: rgba(17, 23, 47, 0.66);
+    color: #35B5FD;
+    text-align: center;
+}
+
+.attack-simulation h2, .attack-simulation h3 {
+    color: #35B5FD;
+}
+
+#attack-results p {
+    margin: 10px 0;
+}

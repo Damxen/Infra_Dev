@@ -6,8 +6,30 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <h1><a class="mbuilds" href="user_builds.html">My Builds</a></h1>
     <h1>League of Stats</h1>
-    
+        <header>
+            
+            <div class="navbar" id="navbar">
+                <nav>
+                    <ul>
+                        <a id="login-link" href="login.html">
+                            <button class="styled-button" id="login-button">Login</button>
+                        </a>
+                        <a id="register-link" href="register.html">
+                            <button class="styled-button" id="register-button">Register</button>
+                        </a>
+                        <li id="user-info" style="display:none;">
+                            <span class="username-display" id="username-display"></span>
+                            <button id="logout-button" class="styled-button">Logout</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+    <button id="save-build" class="styled-button mr">Save Build</button>
+
     <div class="selections">
         <div class="runes-section flex">
             <div class="block">
@@ -109,6 +131,25 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="attack-simulation">
+        <h2>Simulate Attack</h2>
+        <label for="mannequin-armor">Select Mannequin Armor:</label>
+        <select id="mannequin-armor">
+            <option value="100">100 Armor</option>
+            <option value="200">200 Armor</option>
+            <option value="300">300 Armor</option>
+        </select>
+        <button id="simulate-attack">Simulate Attack</button>
+
+        <div id="attack-results">
+            <h3>Results</h3>
+            <p>Base Attack Damage: <span id="base-damage"></span></p>
+            <p>Critical Attack Damage: <span id="crit-damage"></span></p>
+            <p>Damage after Armor Reduction: <span id="damage-after-armor"></span></p>
+            <p>Critical Damage after Armor Reduction: <span id="crit-damage-after-armor"></span></p>
         </div>
     </div>
 

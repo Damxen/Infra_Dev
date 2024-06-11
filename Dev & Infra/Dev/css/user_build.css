@@ -296,3 +296,8 @@ h3 {
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.runes img {
+    width: 30px;
+    height: 30px;
+}

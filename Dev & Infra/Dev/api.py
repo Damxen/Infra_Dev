@@ -7,7 +7,7 @@ import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)  # Autorisation CORS
 
 app.config['SECRET_KEY'] = 'your_secret_key'
 
@@ -255,7 +255,8 @@ def save_build():
     name = data.get('name')
     items = data.get('items')
     runes = data.get('runes')
-    champion_id = data.get('champion_id')
+    champion_image = data.get('champion_image')
+    created_at = datetime.datetime.now()
 
     print(f"Data du build : {data}") #debug
 
@@ -264,9 +265,8 @@ def save_build():
 
     try:
         cur.execute("""
-            INSERT INTO builds (user_id, name, items, runes, champion_id)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (user_id, name, json.dumps(items), json.dumps(runes), champion_id))
+            INSERT INTO builds (user_id, name, items, runes, champion_image, created_at) VALUES (%s, %s, %s, %s, %s, %s)
+        """, (user_id, name, json.dumps(items), json.dumps(runes), champion_image, created_at))
         conn.commit()
         return jsonify({'message': 'Build saved successfully'})
     except Exception as e:
@@ -285,29 +285,33 @@ def get_builds():
     try:
         decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
         user_id = decoded_token['user_id']
-    except Exception as e:
-        return jsonify({'message': 'Token is invalid!', 'error': str(e)}), 401
+    except jwt.ExpiredSignatureError:
+        return jsonify({'message': 'Token has expired!'}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({'message': 'Invalid token!'}), 401
 
     conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT id, user_id, name, items, runes, champion_id, created_at FROM builds WHERE user_id = %s", (user_id,))
+    cur = conn.cursor(dictionary=True)
+    cur.execute("SELECT * FROM builds WHERE user_id = %s", (user_id,))
     builds = cur.fetchall()
+
+    for build in builds:
+        build['items'] = json.loads(build['items'])
+        build['runes'] = json.loads(build['runes'])
+        cur.execute("SELECT * FROM runes WHERE id IN (%s)" % ','.join(map(str, build['runes'])))
+        build['runes'] = cur.fetchall()
+
+        if build['champion_id']:
+            cur.execute("SELECT * FROM champions WHERE id = %s", (build['champion_id'],))
+            champion = cur.fetchone()
+            build['champion'] = champion if champion else None
+        else:
+            build['champion'] = None
+
     cur.close()
     conn.close()
 
-    builds_list = []
-    for build in builds:
-        builds_list.append({
-            'id': build[0],
-            'user_id': build[1],
-            'name': build[2],
-            'items': json.loads(build[3]),
-            'runes': json.loads(build[4]),
-            'champion_id': build[5],
-            'created_at': build[6]
-        })
-
-    return jsonify(builds_list)
+    return jsonify(builds)
 
 
 if __name__ == '__main__':

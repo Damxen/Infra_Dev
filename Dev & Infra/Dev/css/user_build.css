@@ -6,7 +6,7 @@ body {
     padding: 0;
 }
 
-h1, h2 {
+h1, h2{
     color: #35B5FD
 }
 
@@ -300,4 +300,11 @@ h3 {
 .runes img {
     width: 30px;
     height: 30px;
+}
+
+.home {
+    color: #35B5FD;
+}
+.home:hover {
+    background-color: #276b68;
 }

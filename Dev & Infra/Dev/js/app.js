@@ -251,9 +251,11 @@ document.getElementById('save-build').addEventListener('click', () => {
             name: buildName,
             items: equippedItems.map(item => item.id),
             runes: equippedRunes.map(rune => rune.id),
-            champion_id: equippedChampion ? equippedChampion.id : null
+            champion_image: equippedChampion ? equippedChampion.image : null
         };
+
         const token = localStorage.getItem('token');
+
         fetch('http://localhost:5000/builds', {
             method: 'POST',
             headers: {
@@ -401,6 +403,45 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             initializeItemSlots();
         })
-        .catch(error => {
-            console.error('Error fetching items:', error);
-        });
+.catch(error => {
+    console.error('Error fetching items:', error);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem('token');
+    const loginLink = document.getElementById('login-link');
+    const registerLink = document.getElementById('register-link');
+    const userInfo = document.getElementById('user-info');
+    const usernameDisplay = document.getElementById('username-display');
+    const logoutButton = document.getElementById('logout-button');
+
+    if (token) {
+        fetch('http://localhost:5000/user', {
+            method: 'GET',
+            headers: {
+                'x-access-token': token
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.username) {
+                loginLink.style.display = 'none';
+                registerLink.style.display = 'none';
+                userInfo.style.display = 'inline';
+                usernameDisplay.textContent = data.username;
+            }
+        })
+        .catch(error => console.error('Error fetching user info:', error));
+    } else {
+        loginLink.style.display = 'inline';
+        registerLink.style.display = 'inline';
+        userInfo.style.display = 'none';
+    }
+
+    logoutButton.addEventListener('click', function() {
+        localStorage.removeItem('token');
+        window.location.href = 'index.html';
+    });
+});
+
+        

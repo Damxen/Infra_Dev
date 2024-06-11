@@ -296,3 +296,54 @@ h3 {
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.mbuilds {
+    color: #35B5FD;
+}
+.mbuilds:hover {
+    background-color: #276b68;
+}
+
+.styled-button {
+    background-color: #1e90ff; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px; 
+    transition: background-color 0.3s ease; 
+}
+
+.styled-button:hover {
+    background-color: #0b78e3;
+}
+
+.username-display {
+    color: #35B5FD;
+}
+
+
+.navbar {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.navbar .nav-button {
+    background-color: #1E90FF;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}

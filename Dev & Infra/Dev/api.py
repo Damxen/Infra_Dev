@@ -313,6 +313,31 @@ def get_builds():
 
     return jsonify(builds)
 
+@app.route('/user', methods=['GET'])
+def get_user():
+    token = request.headers.get('x-access-token')
+    if not token:
+        return jsonify({'message': 'Token is missing!'}), 401
+    try:
+        decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+        user_id = decoded_token['user_id']
+    except jwt.ExpiredSignatureError:
+        return jsonify({'message': 'Token has expired!'}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({'message': 'Invalid token!'}), 401
+
+    conn = get_db_connection()
+    cur = conn.cursor(dictionary=True)
+    cur.execute("SELECT username FROM users WHERE id = %s", (user_id,))
+    user = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if user:
+        return jsonify(user)
+    else:
+        return jsonify({'message': 'User not found!'}), 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)

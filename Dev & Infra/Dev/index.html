@@ -7,13 +7,27 @@
 </head>
 <body>
     <h1>League of Stats</h1>
-    <button id="save-build">Save Build</button>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="user_builds.html">My Builds</a></li>
-        </ul>
-    </nav>
+        <header>
+            <h1><a class="mbuilds" href="user_builds.html">My Builds</a></h1>
+            <div class="navbar" id="navbar">
+                <nav>
+                    <ul>
+                        <a id="login-link" href="login.html">
+                            <button class="styled-button" id="login-button">Login</button>
+                        </a>
+                        <a id="register-link" href="register.html">
+                            <button class="styled-button" id="register-button">Register</button>
+                        </a>
+                        <li id="user-info" style="display:none;">
+                            <span class="username-display" id="username-display"></span>
+                            <button id="logout-button" class="styled-button">Logout</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+    <button id="save-build" class="styled-button">Save Build</button>
 
     <div class="selections">
         <div class="runes-section flex">

@@ -1,5 +1,7 @@
 # RATUS STATS - Documentation
 
+GITHUB : https://github.com/Damxen/Infra_Dev.git
+
 ## Introduction
 
 Bienvenue dans le projet Ratus Stats. Ce projet a pour but de fournir une API permettant de gérer les statistiques des champions, des objets, des runes et des builds personnalisés et pouvoir les tester pour les utilisateurs de League of Legends. Les fonctionnalités principales incluent l'inscription et la connexion des utilisateurs, la création et la sauvegarde de builds personnalisés, ainsi que leur visualisation.

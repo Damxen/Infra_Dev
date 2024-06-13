@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'login.html';
         return;
     }
-
+// Builds
     fetch('http://localhost:5000/builds', {
         method: 'GET',
         headers: {

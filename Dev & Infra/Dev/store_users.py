@@ -1,3 +1,5 @@
+#Creation table users
+
 import mysql.connector
 
 db_config = {

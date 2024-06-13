@@ -1,0 +1,6 @@
+Flask
+Flask-CORS
+Flask-JWT-Extended
+mysql-connector-python
+Werkzeug
+requests

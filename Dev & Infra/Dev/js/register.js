@@ -2,6 +2,7 @@ document.getElementById('registerForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById('regUsername').value;
     const password = document.getElementById('regPassword').value;
+    //Sign in
     fetch('http://localhost:5000/register', {
         method: 'POST',
         headers: {

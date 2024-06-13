@@ -7,10 +7,10 @@ import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-CORS(app)  # Autorisation CORS
+CORS(app) 
 
 app.config['SECRET_KEY'] = 'your_secret_key'
-
+# Connexion db
 def get_db_connection():
     conn = mysql.connector.connect(
         user='root',
@@ -20,6 +20,7 @@ def get_db_connection():
     )
     return conn
 
+# Récupération des items
 @app.route('/items', methods=['GET'])
 def get_items():
     conn = get_db_connection()
@@ -60,6 +61,7 @@ def get_items():
 
     return jsonify(items_list)
 
+#Récupération ciblé d'un item (via id)
 @app.route('/items/<int:item_id>', methods=['GET'])
 def get_item_stats(item_id):
     conn = get_db_connection()
@@ -94,6 +96,7 @@ def get_item_stats(item_id):
     else:
         return jsonify({'error': 'Item not found'}), 404
 
+#Récupération des champions
 @app.route('/champions', methods=['GET'])
 def get_champions():
     conn = get_db_connection()
@@ -133,6 +136,7 @@ def get_champions():
 
     return jsonify(champions_list)
 
+#Récupération ciblée du champion voulu (via id)
 @app.route('/champions/<int:champion_id>', methods=['GET'])
 def get_champion_stats(champion_id):
     conn = get_db_connection()
@@ -171,6 +175,7 @@ def get_champion_stats(champion_id):
     else:
         return jsonify({'error': 'Champion not found'}), 404
 
+#Récupération des runes
 @app.route('/runes', methods=['GET'])
 def get_runes():
     conn = get_db_connection()
@@ -192,6 +197,7 @@ def get_runes():
 
     return jsonify(runes_list)
 
+#Admission des info users dans la db
 @app.route('/register', methods=['POST'])
 def register_user():
     data = request.get_json()
@@ -212,6 +218,7 @@ def register_user():
 
     return jsonify({'message': 'Registered successfully!'}), 201
 
+#Infos login (vérification)
 @app.route('/login', methods=['POST'])
 def login_user():
     data = request.get_json()
@@ -238,6 +245,7 @@ def login_user():
 
     return jsonify({'token': token})
 
+#Admission des infos save build
 @app.route('/builds', methods=['POST'])
 def save_build():
     token = request.headers.get('x-access-token')
@@ -277,6 +285,7 @@ def save_build():
         cur.close()
         conn.close()
 
+#Récupération des infos des build enregistrés dans la db par user
 @app.route('/builds', methods=['GET'])
 def get_builds():
     token = request.headers.get('x-access-token')
@@ -313,6 +322,7 @@ def get_builds():
 
     return jsonify(builds)
 
+#Vérification des infos users
 @app.route('/user', methods=['GET'])
 def get_user():
     token = request.headers.get('x-access-token')

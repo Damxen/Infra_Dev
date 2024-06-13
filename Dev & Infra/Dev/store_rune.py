@@ -1,3 +1,5 @@
+#Creation table runes
+
 import requests
 import json
 import mysql.connector

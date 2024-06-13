@@ -2,6 +2,7 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
+//login
     fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: {

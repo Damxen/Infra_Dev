@@ -1,3 +1,4 @@
+#Creation table builds
 import mysql.connector
 
 db_config = {

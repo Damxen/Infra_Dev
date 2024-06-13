@@ -2,6 +2,8 @@ let equippedItems = [];
 let equippedRunes = [];
 let equippedChampion = null;
 
+//Recup stats items
+
 function getItemStats(itemId) {
     return fetch(`http://localhost:5000/items/${itemId}`)
         .then(response => response.json())
@@ -10,6 +12,7 @@ function getItemStats(itemId) {
         });
 }
 
+//Recup champs items
 function getChampionStats(championId) {
     return fetch(`http://localhost:5000/champions/${championId}`)
         .then(response => response.json())
@@ -18,6 +21,7 @@ function getChampionStats(championId) {
         });
 }
 
+//Update stats totales du champion selectionné
 function updateTotalStats() {
     const levelDropdown = document.getElementById('champion-level');
     const selectedLevel = parseInt(levelDropdown.value - 1);
@@ -81,6 +85,7 @@ function updateTotalStats() {
     updateSubStats(equippedChampion);
 }
 
+// Update stats du champ
 function updateStats(stats) {
     const statElements = {
         'hp': 'hp',
@@ -124,6 +129,7 @@ function updateStats(stats) {
     });
 }
 
+// Verif equippement
 function toggleSelection(slot, itemId) {
     if (slot.classList.contains('occupied')) {
         equippedItems = equippedItems.filter(item => item.id !== itemId);
@@ -143,6 +149,7 @@ function toggleSelection(slot, itemId) {
     }
 }
 
+// Update verso carte (substats)
 function updateSubStats(championStats) {
     const subStats = {
         'hp_perlevel': championStats.hp_perlevel,
@@ -163,6 +170,7 @@ function updateSubStats(championStats) {
     });
 }
 
+//Update champion selectionné
 function equipChampion(championId, level) {
     return fetch(`http://localhost:5000/champions/${championId}`)
         .then(response => response.json())
@@ -178,6 +186,7 @@ function equipChampion(championId, level) {
         });
 }
 
+// Placement et MAJ du champ équippé
 function placeChampionInSlot(champion, slotSelector) {
     const slots = document.querySelectorAll(slotSelector);
     for (const slot of slots) {
@@ -198,6 +207,7 @@ function placeChampionInSlot(champion, slotSelector) {
     return null;
 }
 
+// Mise en place du champion
 document.querySelectorAll('.champion-slot').forEach(slot => {
     slot.addEventListener('click', (event) => {
         const championId = slot.getAttribute('data-champion-id');
@@ -213,6 +223,7 @@ document.querySelectorAll('.champion-slot').forEach(slot => {
     });
 });
 
+//Mise en place item
 function initializeItemSlots() {
     document.querySelectorAll('.item-slot').forEach(slot => {
         slot.addEventListener('click', (event) => {
@@ -224,6 +235,7 @@ function initializeItemSlots() {
     });
 }
 
+// Mise en place slot champs
 function initializeChampionSlots() {
     document.querySelectorAll('.champion-slot').forEach(slot => {
         slot.addEventListener('click', (event) => {
@@ -244,6 +256,7 @@ function initializeChampionSlots() {
 
 }
 
+//Build sv
 document.getElementById('save-build').addEventListener('click', () => {
     const buildName = prompt('Enter build name:');
     if (buildName) {
@@ -310,6 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+//Mettre en place dans le slot disponible
     function placeInFirstAvailableSlot(item, slotSelector) {
         const slots = document.querySelectorAll(slotSelector);
         for (const slot of slots) {
@@ -341,6 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
 
+//Api /champions
     fetch('http://localhost:5000/champions')
         .then(response => response.json())
         .then(data => {
@@ -363,6 +378,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching champions:', error);
         });
 
+//Api /runes
     fetch('http://localhost:5000/runes')
         .then(response => response.json())
         .then(data => {
@@ -383,6 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching runes:', error);
         });
 
+        //Api /items
     fetch('http://localhost:5000/items')
         .then(response => response.json())
         .then(data => {
@@ -407,6 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.error('Error fetching items:', error);
 });
 
+//simulation de l'attaque
 function simulateAttack() {
     const selectedArmor = parseInt(document.getElementById('mannequin-armor').value);
     if (equippedChampion) {
